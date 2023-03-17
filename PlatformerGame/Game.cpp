@@ -14,6 +14,9 @@ Game::~Game()
 	delete clock;
 	delete iconImage;
 	delete window;
+
+	delete player;
+	delete levelManager;
 }
 
 void Game::InitGameEngine()
@@ -21,11 +24,11 @@ void Game::InitGameEngine()
 	event = new sf::Event();
 	clock = new sf::Clock();
 
-	iconImage = LoadSave::GetImageAtlas(ICON);
+	iconImage = LoadSave::GetImageAtlas(ICON_IMAGE);
 
-	window = new sf::RenderWindow(sf::VideoMode((int)GAME_WIDTH, (int)GAME_HEIGHT), "SFML works!", sf::Style::Close | sf::Style::Titlebar);
+	window = new sf::RenderWindow(sf::VideoMode((int)GAME_WIDTH, (int)GAME_HEIGHT), WINDOW_TITLE, sf::Style::Close | sf::Style::Titlebar);
 	window->setIcon(iconImage->getSize().x, iconImage->getSize().y, iconImage->getPixelsPtr());
-	window->setFramerateLimit(180);
+	window->setFramerateLimit(FRAMERATE_LIMIT);
 }
 
 void Game::InitClasses()
@@ -36,7 +39,7 @@ void Game::InitClasses()
 
 void Game::Run()
 {
-	double timePerFrame = 1000000000.0 / FPS_SET;
+	double timePerFrame = (1000000000.0 / FPS_SET);
 	double timePerUpdate = 1000000000.0 / UPS_SET;
 
 	sf::Time previousTime = clock->getElapsedTime();

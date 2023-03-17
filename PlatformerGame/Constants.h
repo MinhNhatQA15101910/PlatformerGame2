@@ -1,5 +1,11 @@
 #pragma once
 
+const std::string WINDOW_TITLE = "Platformer Game";
+const int FRAMERATE_LIMIT = 180;
+
+const int FPS_SET = 120;
+const int UPS_SET = 200;
+
 const int TILES_DEFAULT_SIZE = 32;
 const float SCALE = 2.0f;
 const int TILES_IN_WIDTH = 26;
@@ -7,6 +13,13 @@ const int TILES_IN_HEIGHT = 14;
 const float TILES_SIZE = (TILES_DEFAULT_SIZE * SCALE);
 const float GAME_WIDTH = (TILES_SIZE * TILES_IN_WIDTH);
 const float GAME_HEIGHT = (TILES_SIZE * TILES_IN_HEIGHT);
+
+const std::string RES_FOLDER = "res";
+
+const std::string ICON_IMAGE = "brick.png";
+const std::string PLAYER_ATLAS = "player_sprites.png";
+const std::string LEVEL_ATLAS = "outside_sprites.png";
+const std::string LEVEL_ONE_DATA = "level_one_data.png";
 
 class Constants
 {

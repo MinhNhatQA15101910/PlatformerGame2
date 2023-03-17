@@ -26,8 +26,10 @@ LevelManager::LevelManager()
 LevelManager::~LevelManager()
 {
 	delete levelOne;
+
 	for (int i = 0; i < 48; i++) 
 		delete levelSprite[i];
+
 	delete texture;
 }
 

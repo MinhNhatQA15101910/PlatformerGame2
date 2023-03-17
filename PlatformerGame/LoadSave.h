@@ -6,13 +6,6 @@
 
 #include <iostream>
 
-const std::string RES_FOLDER = "res";
-
-const std::string ICON = "brick.png";
-const std::string PLAYER_ATLAS = "player_sprites.png";
-const std::string LEVEL_ATLAS = "outside_sprites.png";
-const std::string LEVEL_ONE_DATA = "level_one_data.png";
-
 class LoadSave
 {
 public:
@@ -23,7 +16,7 @@ public:
 
 		if (!image->loadFromFile(filePath))
 		{
-			std::cout << "[ERROR} : Cannot load file " + fileName + "\n";
+			std::cout << "[ERROR] : Cannot load file " + fileName + "\n";
 		}
 
 		return image;
@@ -36,7 +29,7 @@ public:
 
 		if (!texture->loadFromFile(filePath))
 		{
-			std::cout << "[ERROR} : Cannot load file " + fileName + "\n";
+			std::cout << "[ERROR] : Cannot load file " + fileName + "\n";
 		}
 
 		return texture;

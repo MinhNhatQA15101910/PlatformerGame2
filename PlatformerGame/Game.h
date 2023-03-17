@@ -14,9 +14,6 @@ private:
 	sf::Event* event;
 	sf::Image* iconImage;
 
-	const int FPS_SET = 120;
-	const int UPS_SET = 200;
-
 	Player* player;
 	LevelManager* levelManager;
 
