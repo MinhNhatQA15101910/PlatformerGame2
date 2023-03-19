@@ -14,3 +14,8 @@ int Level::GetSpriteIndex(int x, int y)
 {
 	return lvlData[y][x];
 }
+
+int** Level::GetLvlData()
+{
+	return lvlData;
+}

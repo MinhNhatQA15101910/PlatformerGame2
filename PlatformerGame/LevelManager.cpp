@@ -33,6 +33,11 @@ LevelManager::~LevelManager()
 	delete texture;
 }
 
+Level* LevelManager::GetCurrentLevel()
+{
+	return levelOne;
+}
+
 void LevelManager::UpdateProperties()
 {
 }

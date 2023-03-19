@@ -57,6 +57,9 @@
     <ClInclude Include="Game.h">
       <Filter>Source Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="HelpMethods.h">
+      <Filter>Header Files\Utilz</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">

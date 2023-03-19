@@ -2,8 +2,8 @@
 
 #include "Entity.h"
 #include "EventHandler.h"
-#include "Constants.h"
 #include "LoadSave.h"
+#include "HelpMethods.h"
 
 class Player : private Entity, private EventHandler
 {
@@ -20,6 +20,9 @@ private:
 	bool moving = false, attacking = false;
 	bool left, up, right, down;
 	float playerSpeed = 2.0f;
+	int** lvlData; 
+	float xDrawOffset = 21 * SCALE;
+	float yDrawOffset = 4 * SCALE;
 
 	// Key handler
 	void KeyReleased();
@@ -53,6 +56,7 @@ public:
 	~Player();
 
 	void ResetDirBools();
+	void LoadLvlData(int** lvlData);
 
 	void UpdateEvents(sf::Event* event);
 	void UpdateProperties();

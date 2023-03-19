@@ -9,5 +9,6 @@ public:
 	~Level();
 
 	int GetSpriteIndex(int x, int y);
+	int** GetLvlData();
 };
 

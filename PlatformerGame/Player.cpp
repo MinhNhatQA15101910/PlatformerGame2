@@ -6,12 +6,14 @@ Player::Player(float x, float y, float scaleX, float scaleY)
 	event = new sf::Event();
 
     LoadAnimations();
+    InitHitbox(x, y, 20 * SCALE, 28 * SCALE);
 }
 
 Player::~Player()
 {
 	delete event;
     delete texture;
+    delete lvlData;
     for (int j = 0; j < animationSize; j++)
     {
         for (int i = 0; i < spriteSize; i++)
@@ -27,6 +29,11 @@ void Player::ResetDirBools()
     right = false;
     up = false;
     down = false;
+}
+
+void Player::LoadLvlData(int** lvlData)
+{
+    this->lvlData = lvlData;
 }
 
 void Player::KeyEventHandler()
@@ -99,25 +106,43 @@ void Player::UpdatePos()
 {
     moving = false;
 
+    if (!left && !right && !up && !down)
+    {
+        return;
+    }
+
+    float xSpeed = 0, ySpeed = 0;
+
     if (left && !right)
     {
-        x -= playerSpeed;
-        moving = true;
+        xSpeed = -playerSpeed;
     }
     else if (right && !left)
     {
-        x += playerSpeed;
-        moving = true;
+        xSpeed = playerSpeed;
     }
 
     if (up && !down)
     {
-        y -= playerSpeed;
-        moving = true;
+        ySpeed = -playerSpeed;
     }
     else if (down && !up)
     {
-        y += playerSpeed;
+        ySpeed = playerSpeed;
+    }
+
+    if (HelpMethods::CanMoveHere(
+        hitbox->getPosition().x + xSpeed,
+        hitbox->getPosition().y + ySpeed,
+        hitbox->getSize().x,
+        hitbox->getSize().y,
+        lvlData
+    ))
+    {
+        hitbox->setPosition(
+            hitbox->getPosition().x + xSpeed, 
+            hitbox->getPosition().y + ySpeed
+        );
         moving = true;
     }
 }
@@ -176,10 +201,16 @@ void Player::UpdateProperties()
 
 void Player::Render(sf::RenderTarget* renderTarget)
 {
-    animations[playerAction][aniIndex]->setPosition(sf::Vector2f(x, y));
+    animations[playerAction][aniIndex]->setPosition(
+        sf::Vector2f(
+            hitbox->getPosition().x - xDrawOffset, 
+            hitbox->getPosition().y - yDrawOffset
+        )
+    );
     animations[playerAction][aniIndex]->setScale(sf::Vector2f(scaleX, scaleY));
 
     renderTarget->draw(*animations[playerAction][aniIndex]);
+    DrawHitbox(renderTarget);
 }
 
 void Player::KeyReleased()

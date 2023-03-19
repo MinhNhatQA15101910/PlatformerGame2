@@ -33,8 +33,10 @@ void Game::InitGameEngine()
 
 void Game::InitClasses()
 {
-	player = new Player(200, 200, SCALE, SCALE);
 	levelManager = new LevelManager();
+
+	player = new Player(200, 200, SCALE, SCALE);
+	player->LoadLvlData(levelManager->GetCurrentLevel()->GetLvlData());
 }
 
 void Game::Run()
