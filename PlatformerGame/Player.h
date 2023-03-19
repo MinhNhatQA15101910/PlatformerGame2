@@ -18,11 +18,18 @@ private:
 	int aniTick, aniIndex, aniSpeed = 25;
 	int playerAction = Constants::PlayerConstants::PlayerStates::IDLE;
 	bool moving = false, attacking = false;
-	bool left, up, right, down;
+	bool left, up, right, down, jump;
 	float playerSpeed = 2.0f;
 	int** lvlData; 
 	float xDrawOffset = 21 * SCALE;
 	float yDrawOffset = 4 * SCALE;
+
+	// Jumping / Gravity
+	float airSpeed = 0.f;
+	float gravity = 0.04f * SCALE;
+	float jumpSpeed = -2.25f * SCALE;
+	float fallSpeedAfterCollision = 0.5f * SCALE;
+	bool inAir = false;
 
 	// Key handler
 	void KeyReleased();
@@ -46,7 +53,11 @@ private:
 	// Engine
 	void LoadAnimations();
 
+	void ResetInAir();
+	void Jump();
+
 	void UpdatePos();
+	void UpdateXPos(float xSpeed);
 	void UpdateAnimationTick();
 	void ResetAniTick();
 	void SetAnimation();

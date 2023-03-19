@@ -6,7 +6,7 @@ Player::Player(float x, float y, float scaleX, float scaleY)
 	event = new sf::Event();
 
     LoadAnimations();
-    InitHitbox(x, y, 20 * SCALE, 28 * SCALE);
+    InitHitbox(x, y, 20 * SCALE, 27 * SCALE);
 }
 
 Player::~Player()
@@ -34,6 +34,20 @@ void Player::ResetDirBools()
 void Player::LoadLvlData(int** lvlData)
 {
     this->lvlData = lvlData;
+    if (!HelpMethods::IsEntityOnFloor(hitbox, lvlData))
+    {
+        inAir = true;
+    }
+}
+
+void Player::Jump()
+{
+    if (inAir)
+    {
+        return;
+    }
+    inAir = true;
+    airSpeed = jumpSpeed;
 }
 
 void Player::KeyEventHandler()
@@ -93,6 +107,12 @@ void Player::LoadAnimations()
     }
 }
 
+void Player::ResetInAir()
+{
+    inAir = false;
+    airSpeed = 0;
+}
+
 void Player::UpdateEvents(sf::Event* event)
 {
     this->event = event;
@@ -106,44 +126,99 @@ void Player::UpdatePos()
 {
     moving = false;
 
-    if (!left && !right && !up && !down)
+    if (jump)
+    {
+        Jump();
+    }
+    if (!left && !right && !inAir)
     {
         return;
     }
 
-    float xSpeed = 0, ySpeed = 0;
+    float xSpeed = 0;
 
-    if (left && !right)
+    if (left)
     {
-        xSpeed = -playerSpeed;
+        xSpeed -= playerSpeed;
     }
-    else if (right && !left)
+    if (right)
     {
-        xSpeed = playerSpeed;
-    }
-
-    if (up && !down)
-    {
-        ySpeed = -playerSpeed;
-    }
-    else if (down && !up)
-    {
-        ySpeed = playerSpeed;
+        xSpeed += playerSpeed;
     }
 
+    if (!inAir)
+    {
+        if (!HelpMethods::IsEntityOnFloor(hitbox, lvlData))
+        {
+            inAir = true;
+        }
+    }
+
+    if (inAir)
+    {
+        if (HelpMethods::CanMoveHere(
+            hitbox->getPosition().x,
+            hitbox->getPosition().y + airSpeed,
+            hitbox->getSize().x,
+            hitbox->getSize().y,
+            lvlData
+        ))
+        {
+            hitbox->setPosition(
+                hitbox->getPosition().x, 
+                hitbox->getPosition().y + airSpeed
+            );
+            airSpeed += gravity;
+            UpdateXPos(xSpeed);
+        }
+        else 
+        {
+            hitbox->setPosition(
+                hitbox->getPosition().x,
+                HelpMethods::GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed)
+            );
+
+            if (airSpeed > 0)
+            {
+                ResetInAir();
+            }
+            else
+            {
+                airSpeed = fallSpeedAfterCollision;
+            }
+
+            UpdateXPos(xSpeed);
+        }
+    }
+    else
+    {
+        UpdateXPos(xSpeed);
+    }
+
+    moving = true;
+}
+
+void Player::UpdateXPos(float xSpeed)
+{
     if (HelpMethods::CanMoveHere(
         hitbox->getPosition().x + xSpeed,
-        hitbox->getPosition().y + ySpeed,
+        hitbox->getPosition().y,
         hitbox->getSize().x,
         hitbox->getSize().y,
         lvlData
     ))
     {
         hitbox->setPosition(
-            hitbox->getPosition().x + xSpeed, 
-            hitbox->getPosition().y + ySpeed
+            hitbox->getPosition().x + xSpeed,
+            hitbox->getPosition().y
         );
-        moving = true;
+    }
+    else
+    {
+        hitbox->setPosition(
+            HelpMethods::GetEntityXPosNextToWall(hitbox, xSpeed),
+            hitbox->getPosition().y
+        );
     }
 }
 
@@ -181,6 +256,18 @@ void Player::SetAnimation()
         playerAction = Constants::PlayerConstants::PlayerStates::IDLE;
     }
 
+    if (inAir)
+    {
+        if (airSpeed < 0)
+        {
+            playerAction = Constants::PlayerConstants::PlayerStates::JUMP;
+        }
+        else 
+        {
+            playerAction = Constants::PlayerConstants::PlayerStates::FALLING;
+        }
+    }
+
     if (attacking)
     {
         playerAction = Constants::PlayerConstants::PlayerStates::ATTACK_1;
@@ -208,26 +295,29 @@ void Player::Render(sf::RenderTarget* renderTarget)
         )
     );
     animations[playerAction][aniIndex]->setScale(sf::Vector2f(scaleX, scaleY));
-
     renderTarget->draw(*animations[playerAction][aniIndex]);
-    DrawHitbox(renderTarget);
+    std::cout << std::to_string(animations[playerAction][aniIndex]->getPosition().x) << " : " << std::to_string(animations[playerAction][aniIndex]->getPosition().y) << "\n";
+    //DrawHitbox(renderTarget);
 }
 
 void Player::KeyReleased()
 {
     switch (event->key.code)
     {
-    case sf::Keyboard::W:
+    /*case sf::Keyboard::W:
         up = false;
-        break;
+        break;*/
     case sf::Keyboard::A:
         left = false;
         break;
-    case sf::Keyboard::S:
+    /*case sf::Keyboard::S:
         down = false;
-        break;
+        break;*/
     case sf::Keyboard::D:
         right = false;
+        break;
+    case sf::Keyboard::Space:
+        jump = false;
         break;
     }
 }
@@ -236,17 +326,20 @@ void Player::KeyPressed()
 {
     switch (event->key.code) 
     {
-    case sf::Keyboard::W:
+    /*case sf::Keyboard::W:
         up = true;
-        break;
+        break;*/
     case sf::Keyboard::A:
         left = true;
         break;
-    case sf::Keyboard::S:
+    /*case sf::Keyboard::S:
         down = true;
-        break;
+        break;*/
     case sf::Keyboard::D:
         right = true;
+        break;
+    case sf::Keyboard::Space:
+        jump = true;
         break;
     }
 }

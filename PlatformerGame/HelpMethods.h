@@ -48,4 +48,60 @@ public:
 
 		return false;
 	}
+
+	static float GetEntityXPosNextToWall(sf::RectangleShape* hitbox, float xSpeed)
+	{
+		int currentTile = (int)(hitbox->getPosition().x / TILES_SIZE);
+		if (xSpeed > 0)
+		{
+			// Right
+			float tileXPos = currentTile * TILES_SIZE;
+			float xOffset = TILES_SIZE - hitbox->getSize().x;
+			return tileXPos + xOffset - 1;
+		}
+		else 
+		{
+			// Left
+			return currentTile * TILES_SIZE;
+		}
+	}
+
+	static float GetEntityYPosUnderRoofOrAboveFloor(sf::RectangleShape* hitbox, float airSpeed)
+	{
+		int currentTile = (int)(hitbox->getPosition().y / TILES_SIZE);
+		if (airSpeed > 0)
+		{
+			// Falling - touching floor
+			float tileYPos = currentTile * TILES_SIZE;
+			float yOffset = TILES_SIZE - hitbox->getSize().y;
+			return tileYPos + yOffset - 1;
+		}
+		else
+		{
+			// Jumping
+			return currentTile * TILES_SIZE;
+		}
+	}
+
+	static bool IsEntityOnFloor(sf::RectangleShape* hitbox, int** lvlData)
+	{
+		// Check the pixel below bottomleft and bottomright
+		if (!IsSolid(
+			hitbox->getPosition().x,
+			hitbox->getPosition().y + hitbox->getSize().y + 1,
+			lvlData
+		))
+		{
+			if (!IsSolid(
+				hitbox->getPosition().x + hitbox->getSize().x,
+				hitbox->getPosition().y + hitbox->getSize().y + 1,
+				lvlData
+			))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 };
