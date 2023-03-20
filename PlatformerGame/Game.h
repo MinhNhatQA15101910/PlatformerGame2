@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Player.h"
-#include "LevelManager.h"
+#include "Playing.h"
+#include "Menu.h"
 
 #include <iostream>
 
@@ -14,8 +14,10 @@ private:
 	sf::Event* event;
 	sf::Image* iconImage;
 
-	Player* player;
-	LevelManager* levelManager;
+	Playing* playing;
+	Menu* menu;
+
+	int state = Gamestate::PLAYING;
 
 	void InitGameEngine();
 	void InitClasses();
@@ -31,6 +33,9 @@ private:
 	void Render();
 
 public:
+
 	Game();
 	~Game();
+
+	int GetState();
 };

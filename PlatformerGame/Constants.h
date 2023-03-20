@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Gamestate.h"
+
 const std::string WINDOW_TITLE = "Platformer Game";
 const int FRAMERATE_LIMIT = 180;
 

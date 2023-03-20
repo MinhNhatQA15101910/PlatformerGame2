@@ -1,16 +1,12 @@
 #pragma once
 
 #include "Entity.h"
-#include "EventHandler.h"
 #include "LoadSave.h"
 #include "HelpMethods.h"
 
-class Player : private Entity, private EventHandler
+class Player : private Entity
 {
 private:
-	// Engine
-	sf::Event* event;
-
 	// Core
 	sf::Texture* texture;
 	int animationSize = 9, spriteSize = 6;
@@ -31,25 +27,6 @@ private:
 	float fallSpeedAfterCollision = 0.5f * SCALE;
 	bool inAir = false;
 
-	// Key handler
-	void KeyReleased();
-	void KeyPressed();
-
-	void KeyEventHandler();
-
-	// Mouse button handler
-	void MouseButtonPressed();
-	void MouseButtonReleased();
-
-	void MouseButtonEventHandler();
-
-	// Mouse move handler
-	void MouseEntered();
-	void MouseLeft();
-	void MouseMoved();
-
-	void MouseMoveEventHandler();
-
 	// Engine
 	void LoadAnimations();
 
@@ -69,7 +46,11 @@ public:
 	void ResetDirBools();
 	void LoadLvlData(int** lvlData);
 
-	void UpdateEvents(sf::Event* event);
+	void SetLeft(bool left);
+	void SetRight(bool right);
+	void SetJump(bool jump);
+	void SetAttacking(bool attacking);
+
 	void UpdateProperties();
 
 	void Render(sf::RenderTarget* renderTarget);

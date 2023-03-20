@@ -31,6 +31,9 @@
     <Filter Include="Header Files\Inputs">
       <UniqueIdentifier>{a3fdc9b5-e178-4cfb-a07f-ac8b0a30837a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gamestates">
+      <UniqueIdentifier>{8f2873b2-3178-45ef-9873-a981d1a2f563}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -60,6 +63,21 @@
     <ClInclude Include="HelpMethods.h">
       <Filter>Header Files\Utilz</Filter>
     </ClInclude>
+    <ClInclude Include="Gamestate.h">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="Statemethods.h">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="Playing.h">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -79,6 +97,15 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="Playing.cpp">
+      <Filter>Header Files\Gamestates</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Header Files\Gamestates</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

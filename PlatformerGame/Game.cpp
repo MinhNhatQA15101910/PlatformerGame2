@@ -15,8 +15,13 @@ Game::~Game()
 	delete iconImage;
 	delete window;
 
-	delete player;
-	delete levelManager;
+	delete menu;
+	delete playing;
+}
+
+int Game::GetState()
+{
+	return this->state;
 }
 
 void Game::InitGameEngine()
@@ -33,10 +38,8 @@ void Game::InitGameEngine()
 
 void Game::InitClasses()
 {
-	levelManager = new LevelManager();
-
-	player = new Player(200, 200, SCALE, SCALE);
-	player->LoadLvlData(levelManager->GetCurrentLevel()->GetLvlData());
+	menu = new Menu(&state);
+	playing = new Playing(&state);
 }
 
 void Game::Run()
@@ -97,14 +100,33 @@ void Game::UpdateEvents()
 	while (window->pollEvent(*event))
 	{
 		DefaultEventHandler();
-		player->UpdateEvents(event);
+		switch (state)
+		{
+		case Gamestate::MENU:
+			menu->UpdateEvents(event);
+			break;
+		case Gamestate::PLAYING:
+			playing->UpdateEvents(event);
+			break;
+		default:
+			break;
+		}
 	}
 }
 
 void Game::UpdateProperties()
 {
-	levelManager->UpdateProperties();
-	player->UpdateProperties();
+	switch (state)
+	{
+	case Gamestate::MENU:
+		menu->UpdateProperties();
+		break;
+	case Gamestate::PLAYING:
+		playing->UpdateProperties();
+		break;
+	default:
+		break;
+	}
 }
 
 void Game::Update()
@@ -115,8 +137,17 @@ void Game::Update()
 
 void Game::RenderProperties()
 {
-	levelManager->Render(window);
-	player->Render(window);
+	switch (state)
+	{
+	case Gamestate::MENU:
+		menu->Render(window);
+		break;
+	case Gamestate::PLAYING:
+		playing->Render(window);
+		break;
+	default:
+		break;
+	}
 }
 
 void Game::Render()

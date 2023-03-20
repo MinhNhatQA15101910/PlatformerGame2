@@ -3,7 +3,6 @@
 Player::Player(float x, float y, float scaleX, float scaleY)
 	: Entity(x, y, scaleX, scaleY)
 {
-	event = new sf::Event();
 
     LoadAnimations();
     InitHitbox(x, y, 20 * SCALE, 27 * SCALE);
@@ -11,7 +10,6 @@ Player::Player(float x, float y, float scaleX, float scaleY)
 
 Player::~Player()
 {
-	delete event;
     delete texture;
     delete lvlData;
     for (int j = 0; j < animationSize; j++)
@@ -40,6 +38,26 @@ void Player::LoadLvlData(int** lvlData)
     }
 }
 
+void Player::SetLeft(bool left)
+{
+    this->left = left;
+}
+
+void Player::SetRight(bool right)
+{
+    this->right = right;
+}
+
+void Player::SetJump(bool jump)
+{
+    this->jump = jump;
+}
+
+void Player::SetAttacking(bool attacking)
+{
+    this->attacking = attacking;
+}
+
 void Player::Jump()
 {
     if (inAir)
@@ -48,48 +66,6 @@ void Player::Jump()
     }
     inAir = true;
     airSpeed = jumpSpeed;
-}
-
-void Player::KeyEventHandler()
-{
-    switch (event->type) 
-    {
-    case sf::Event::KeyPressed:
-        KeyPressed();
-        break;
-    case sf::Event::KeyReleased:
-        KeyReleased();
-        break;
-    }
-}
-
-void Player::MouseButtonEventHandler()
-{
-    switch (event->type) 
-    {
-    case sf::Event::MouseButtonPressed:
-        MouseButtonPressed();
-        break;
-    case sf::Event::MouseButtonReleased:
-        MouseButtonReleased();
-        break;
-    }
-}
-
-void Player::MouseMoveEventHandler()
-{
-    switch (event->type) 
-    {
-    case sf::Event::MouseEntered:
-        MouseEntered();
-        break;
-    case sf::Event::MouseLeft:
-        MouseLeft();
-        break;
-    case sf::Event::MouseMoved:
-        MouseMoved();
-        break;
-    }
 }
 
 void Player::LoadAnimations()
@@ -111,15 +87,6 @@ void Player::ResetInAir()
 {
     inAir = false;
     airSpeed = 0;
-}
-
-void Player::UpdateEvents(sf::Event* event)
-{
-    this->event = event;
-
-    KeyEventHandler();
-    MouseButtonEventHandler();
-    MouseMoveEventHandler();
 }
 
 void Player::UpdatePos()
@@ -296,74 +263,5 @@ void Player::Render(sf::RenderTarget* renderTarget)
     );
     animations[playerAction][aniIndex]->setScale(sf::Vector2f(scaleX, scaleY));
     renderTarget->draw(*animations[playerAction][aniIndex]);
-    std::cout << std::to_string(animations[playerAction][aniIndex]->getPosition().x) << " : " << std::to_string(animations[playerAction][aniIndex]->getPosition().y) << "\n";
     //DrawHitbox(renderTarget);
-}
-
-void Player::KeyReleased()
-{
-    switch (event->key.code)
-    {
-    /*case sf::Keyboard::W:
-        up = false;
-        break;*/
-    case sf::Keyboard::A:
-        left = false;
-        break;
-    /*case sf::Keyboard::S:
-        down = false;
-        break;*/
-    case sf::Keyboard::D:
-        right = false;
-        break;
-    case sf::Keyboard::Space:
-        jump = false;
-        break;
-    }
-}
-
-void Player::KeyPressed()
-{
-    switch (event->key.code) 
-    {
-    /*case sf::Keyboard::W:
-        up = true;
-        break;*/
-    case sf::Keyboard::A:
-        left = true;
-        break;
-    /*case sf::Keyboard::S:
-        down = true;
-        break;*/
-    case sf::Keyboard::D:
-        right = true;
-        break;
-    case sf::Keyboard::Space:
-        jump = true;
-        break;
-    }
-}
-
-void Player::MouseButtonPressed()
-{
-    if (event->mouseButton.button == sf::Mouse::Button::Left)
-    {
-        attacking = true;
-    }
-}
-
-void Player::MouseButtonReleased()
-{
-}
-
-void Player::MouseEntered()
-{
-}
-
-void Player::MouseLeft()
-{
-}
-
-void Player::MouseMoved()
-{
 }

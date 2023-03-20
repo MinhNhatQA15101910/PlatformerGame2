@@ -4,8 +4,6 @@
 
 #include <iostream>
 
-#include "EventHandler.h"
-
 class Entity
 {
 protected:
