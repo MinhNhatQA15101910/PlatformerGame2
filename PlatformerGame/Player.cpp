@@ -5,7 +5,7 @@ Player::Player(float x, float y, float scaleX, float scaleY)
 {
 
     LoadAnimations();
-    InitHitbox(x, y, 20 * SCALE, 27 * SCALE);
+    InitHitbox(x, y,(int)(20 * SCALE),(int)(27 * SCALE));
 }
 
 Player::~Player()

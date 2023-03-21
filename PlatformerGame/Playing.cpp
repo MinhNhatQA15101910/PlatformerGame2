@@ -38,7 +38,7 @@ void Playing::KeyPressed()
 		player->SetJump(true);
 		break;
 	case sf::Keyboard::Backspace:
-		*state = Gamestate::MENU;
+		*gamestate = Constants::Gamestate::MENU;
 		break;
 	}
 }
@@ -67,8 +67,8 @@ void Playing::MouseMoved()
 {
 }
 
-Playing::Playing(int* state)
-	: State(state)
+Playing::Playing(int* gamestate)
+	: State(gamestate)
 {
 	event = new sf::Event();
 
@@ -77,6 +77,7 @@ Playing::Playing(int* state)
 
 Playing::~Playing()
 {
+	State::~State();
 	delete event;
 	delete player;
 	delete levelManager;

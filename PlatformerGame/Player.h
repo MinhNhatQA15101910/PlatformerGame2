@@ -15,7 +15,7 @@ private:
 	int playerAction = Constants::PlayerConstants::PlayerStates::IDLE;
 	bool moving = false, attacking = false;
 	bool left, up, right, down, jump;
-	float playerSpeed = 2.0f;
+	float playerSpeed = 1.0f * SCALE;
 	int** lvlData; 
 	float xDrawOffset = 21 * SCALE;
 	float yDrawOffset = 4 * SCALE;

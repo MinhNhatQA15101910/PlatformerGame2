@@ -30,7 +30,7 @@ private:
 	void MouseMoved();
 
 public:
-	Playing(int* state);
+	Playing(int* gamestate);
 	~Playing();
 
 	Player* GetPlayer();

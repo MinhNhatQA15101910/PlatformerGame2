@@ -1,31 +1,32 @@
 #include "Menu.h"
 
-Menu::Menu(int* state)
-	: State(state)
+Menu::Menu(int* gamestate)
+	: State(gamestate)
 {
 	event = new sf::Event();
 
-	font = new sf::Font();
-	if (!font->loadFromFile("fonts\\Dosis-Light.ttf"))
-	{
-		std::cout << "Cannot load font\n";
-	}
-
-	text = new sf::Text();
-	text->setFont(*font);
-	text->setString("MENU");
-	text->setCharacterSize(16);
+	LoadButtons();
+	LoadBackground();
 }
 
 Menu::~Menu()
 {
+	State::~State();
 	delete event;
-	delete text;
-	delete font;
+	delete backgroundSprite;
+	delete backgroundTexture;
+	for (int i = 0; i < 3; i++)
+	{
+		delete buttons[i];
+	}
 }
 
 void Menu::UpdateProperties()
 {
+	for (MenuButton* mb : buttons)
+	{
+		mb->UpdateProperties();
+	}
 }
 
 void Menu::UpdateEvents(sf::Event* event)
@@ -39,10 +40,14 @@ void Menu::UpdateEvents(sf::Event* event)
 
 void Menu::Render(sf::RenderTarget* renderTarget)
 {
-	text->setFillColor(sf::Color::White);
-	text->setPosition(GAME_WIDTH / 2, 200);
+	backgroundSprite->setPosition(menuX, menuY);
+	backgroundSprite->setScale(sf::Vector2f(SCALE, SCALE));
+	renderTarget->draw(*backgroundSprite);
 
-	renderTarget->draw(*text);
+	for (MenuButton* mb : buttons)
+	{
+		mb->Render(renderTarget);
+	}
 }
 
 void Menu::KeyEventHandler()
@@ -87,6 +92,34 @@ void Menu::MouseMoveEventHandler()
 	}
 }
 
+void Menu::LoadButtons()
+{
+	buttons[0] = new MenuButton((int)(GAME_WIDTH / 2), (int)(150 * SCALE), 0, gamestate, Constants::Gamestate::PLAYING);
+	buttons[1] = new MenuButton((int)(GAME_WIDTH / 2), (int)(220 * SCALE), 1, gamestate, Constants::Gamestate::OPTIONS);
+	buttons[2] = new MenuButton((int)(GAME_WIDTH / 2), (int)(290 * SCALE), 2, gamestate, Constants::Gamestate::QUIT);
+}
+
+void Menu::LoadBackground()
+{
+	backgroundTexture = LoadSave::GetTextureAtlas(MENU_BACKGROUND);
+
+	backgroundSprite = new sf::Sprite();
+	backgroundSprite->setTexture(*backgroundTexture);
+
+	menuWidth = (backgroundTexture->getSize().x * SCALE);
+	menuHeight = (backgroundTexture->getSize().y * SCALE);
+	menuX = GAME_WIDTH / 2 - menuWidth / 2;
+	menuY = (45 * SCALE);
+}
+
+void Menu::ResetButtons()
+{
+	for (MenuButton* mb : buttons)
+	{
+		mb->ResetBools();
+	}
+}
+
 void Menu::KeyReleased()
 {
 }
@@ -95,16 +128,36 @@ void Menu::KeyPressed()
 {
 	if (event->key.code == sf::Keyboard::Enter)
 	{
-		*state = Gamestate::PLAYING;
+		*gamestate = Constants::Gamestate::PLAYING;
 	}
 }
 
 void Menu::MouseButtonPressed()
 {
+	for (MenuButton* mb : buttons)
+	{
+		if (IsIn(event->mouseButton, mb))
+		{
+			mb->SetMousePressed(true);
+		}
+	}
 }
 
 void Menu::MouseButtonReleased()
 {
+	for (MenuButton* mb : buttons)
+	{
+		if (IsIn(event->mouseButton, mb))
+		{
+			if (mb->IsMousePressed())
+			{
+				mb->ApplyGamestate();
+			}
+			break;
+		}
+	}
+
+	ResetButtons();
 }
 
 void Menu::MouseEntered()
@@ -117,4 +170,17 @@ void Menu::MouseLeft()
 
 void Menu::MouseMoved()
 {
+	for (MenuButton* mb : buttons)
+	{
+		mb->SetMouseOver(false);
+	}
+
+	for (MenuButton* mb : buttons)
+	{
+		if (IsIn(event->mouseButton, mb))
+		{
+			mb->SetMouseOver(true);
+			break;
+		}
+	}
 }

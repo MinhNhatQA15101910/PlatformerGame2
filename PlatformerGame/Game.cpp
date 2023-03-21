@@ -21,7 +21,7 @@ Game::~Game()
 
 int Game::GetState()
 {
-	return this->state;
+	return this->gamestate;
 }
 
 void Game::InitGameEngine()
@@ -38,8 +38,8 @@ void Game::InitGameEngine()
 
 void Game::InitClasses()
 {
-	menu = new Menu(&state);
-	playing = new Playing(&state);
+	menu = new Menu(&gamestate);
+	playing = new Playing(&gamestate);
 }
 
 void Game::Run()
@@ -100,12 +100,12 @@ void Game::UpdateEvents()
 	while (window->pollEvent(*event))
 	{
 		DefaultEventHandler();
-		switch (state)
+		switch (gamestate)
 		{
-		case Gamestate::MENU:
+		case Constants::Gamestate::MENU:
 			menu->UpdateEvents(event);
 			break;
-		case Gamestate::PLAYING:
+		case Constants::Gamestate::PLAYING:
 			playing->UpdateEvents(event);
 			break;
 		default:
@@ -116,15 +116,18 @@ void Game::UpdateEvents()
 
 void Game::UpdateProperties()
 {
-	switch (state)
+	switch (gamestate)
 	{
-	case Gamestate::MENU:
+	case Constants::Gamestate::MENU:
 		menu->UpdateProperties();
 		break;
-	case Gamestate::PLAYING:
+	case Constants::Gamestate::PLAYING:
 		playing->UpdateProperties();
 		break;
+	case Constants::Gamestate::OPTIONS:
+	case Constants::Gamestate::QUIT:
 	default:
+		window->close();
 		break;
 	}
 }
@@ -137,12 +140,12 @@ void Game::Update()
 
 void Game::RenderProperties()
 {
-	switch (state)
+	switch (gamestate)
 	{
-	case Gamestate::MENU:
+	case Constants::Gamestate::MENU:
 		menu->Render(window);
 		break;
-	case Gamestate::PLAYING:
+	case Constants::Gamestate::PLAYING:
 		playing->Render(window);
 		break;
 	default:

@@ -34,6 +34,9 @@
     <Filter Include="Header Files\Gamestates">
       <UniqueIdentifier>{8f2873b2-3178-45ef-9873-a981d1a2f563}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ui">
+      <UniqueIdentifier>{9d9568fc-8fb4-4650-b587-1e079055f6c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity.h">
@@ -63,9 +66,6 @@
     <ClInclude Include="HelpMethods.h">
       <Filter>Header Files\Utilz</Filter>
     </ClInclude>
-    <ClInclude Include="Gamestate.h">
-      <Filter>Header Files\Gamestates</Filter>
-    </ClInclude>
     <ClInclude Include="Statemethods.h">
       <Filter>Header Files\Gamestates</Filter>
     </ClInclude>
@@ -77,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="State.h">
       <Filter>Header Files\Gamestates</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>Header Files\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +110,9 @@
     <ClCompile Include="State.cpp">
       <Filter>Header Files\Gamestates</Filter>
     </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\brick.png">
@@ -119,6 +125,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\player_sprites.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\button_atlas.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\menu_background.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

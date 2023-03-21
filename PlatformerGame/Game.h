@@ -17,7 +17,7 @@ private:
 	Playing* playing;
 	Menu* menu;
 
-	int state = Gamestate::PLAYING;
+	int gamestate = Constants::Gamestate::MENU;
 
 	void InitGameEngine();
 	void InitClasses();

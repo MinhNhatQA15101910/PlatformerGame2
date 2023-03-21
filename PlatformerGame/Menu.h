@@ -4,6 +4,8 @@
 #include "EventHandler.h"
 #include "Constants.h"
 #include "State.h"
+#include "MenuButton.h"
+#include "HelpMethods.h"
 
 #include <iostream>
 
@@ -12,8 +14,15 @@ class Menu : public State, public Statemethods, public EventHandler
 private:
 	sf::Event* event;
 
-	sf::Font* font;
-	sf::Text* text;
+	MenuButton* buttons[3];
+	sf::Texture* backgroundTexture;
+	sf::Sprite* backgroundSprite;
+	float menuX, menuY, menuWidth, menuHeight;
+
+	void LoadButtons();
+	void LoadBackground();
+
+	void ResetButtons();
 
 	// Key handler
 	void KeyReleased();
@@ -29,7 +38,7 @@ private:
 	void MouseMoved();
 
 public:
-	Menu(int* state);
+	Menu(int* gamestate);
 	~Menu();
 
 	void UpdateProperties();

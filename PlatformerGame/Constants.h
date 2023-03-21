@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Gamestate.h"
-
 const std::string WINDOW_TITLE = "Platformer Game";
 const int FRAMERATE_LIMIT = 180;
 
+// Game framework
 const int FPS_SET = 120;
 const int UPS_SET = 200;
 
+// Game Window
 const int TILES_DEFAULT_SIZE = 32;
 const float SCALE = 2.0f;
 const int TILES_IN_WIDTH = 26;
@@ -16,12 +16,21 @@ const float TILES_SIZE = (TILES_DEFAULT_SIZE * SCALE);
 const float GAME_WIDTH = (TILES_SIZE * TILES_IN_WIDTH);
 const float GAME_HEIGHT = (TILES_SIZE * TILES_IN_HEIGHT);
 
+// UI
+const int B_WIDTH_DEFAULT = 140;
+const int B_HEIGHT_DEFAULT = 56;
+const int B_WIDTH = (int)(B_WIDTH_DEFAULT * SCALE);
+const int B_HEIGHT = (int)(B_HEIGHT_DEFAULT * SCALE);
+
+// Resource
 const std::string RES_FOLDER = "res";
 
 const std::string ICON_IMAGE = "brick.png";
 const std::string PLAYER_ATLAS = "player_sprites.png";
 const std::string LEVEL_ATLAS = "outside_sprites.png";
 const std::string LEVEL_ONE_DATA = "level_one_data.png";
+const std::string MENU_BUTTONS = "button_atlas.png";
+const std::string MENU_BACKGROUND = "menu_background.png";
 
 class Constants
 {
@@ -32,6 +41,14 @@ public:
 		UP = 1,
 		RIGHT = 2,
 		DOWN = 3
+	};
+
+	enum Gamestate
+	{
+		PLAYING = 0,
+		MENU = 1,
+		OPTIONS = 2,
+		QUIT = 3
 	};
 
 	class PlayerConstants
