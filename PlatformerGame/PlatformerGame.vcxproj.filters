@@ -81,6 +81,21 @@
     <ClInclude Include="MenuButton.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="PauseButton.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundButton.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="UrmButton.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeButton.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseOverlay.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -113,6 +128,21 @@
     <ClCompile Include="MenuButton.cpp">
       <Filter>Header Files\ui</Filter>
     </ClCompile>
+    <ClCompile Include="PauseButton.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundButton.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="UrmButton.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeButton.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseOverlay.cpp">
+      <Filter>Header Files\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\brick.png">
@@ -131,6 +161,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\menu_background.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pause_menu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\sound_button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\urm_buttons.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\volume_buttons.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

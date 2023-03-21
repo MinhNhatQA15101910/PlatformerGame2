@@ -91,8 +91,6 @@ void Game::DefaultEventHandler()
 {
 	if (event->type == sf::Event::Closed)
 		window->close();
-	else if (event->type == sf::Event::KeyPressed && event->key.code == sf::Keyboard::Escape)
-		window->close();
 }
 
 void Game::UpdateEvents()

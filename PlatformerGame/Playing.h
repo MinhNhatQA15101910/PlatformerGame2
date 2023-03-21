@@ -5,6 +5,7 @@
 #include "Statemethods.h"
 #include "State.h"
 #include "EventHandler.h"
+#include "PauseOverlay.h"
 
 class Playing : public State, public Statemethods, public EventHandler
 {
@@ -13,6 +14,8 @@ private:
 
 	Player* player;
 	LevelManager* levelManager;
+	PauseOverlay* pauseOverlay;
+	bool paused = false;
 
 	void InitClasses();
 

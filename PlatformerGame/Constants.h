@@ -22,6 +22,22 @@ const int B_HEIGHT_DEFAULT = 56;
 const int B_WIDTH = (int)(B_WIDTH_DEFAULT * SCALE);
 const int B_HEIGHT = (int)(B_HEIGHT_DEFAULT * SCALE);
 
+// Pause Buttons
+const int SOUND_SIZE_DEFAULT = 42;
+const int SOUND_SIZE = (int)(SOUND_SIZE_DEFAULT * SCALE);
+
+// URM Buttons
+const int URM_DEFAULT_SIZE = 56;
+const int URM_SIZE = (int)(URM_DEFAULT_SIZE * SCALE);
+
+// Volume Buttons
+const int VOLUME_DEFAULT_WIDTH = 28;
+const int VOLUME_DEFAULT_HEIGHT = 44;
+const int SLIDER_DEFAULT_WIDTH = 215;
+const int VOLUME_WIDTH = (int)(VOLUME_DEFAULT_WIDTH * SCALE);
+const int VOLUME_HEIGHT = (int)(VOLUME_DEFAULT_HEIGHT * SCALE);
+const int SLIDER_WIDTH = (int)(SLIDER_DEFAULT_WIDTH * SCALE);
+
 // Resource
 const std::string RES_FOLDER = "res";
 
@@ -31,6 +47,10 @@ const std::string LEVEL_ATLAS = "outside_sprites.png";
 const std::string LEVEL_ONE_DATA = "level_one_data.png";
 const std::string MENU_BUTTONS = "button_atlas.png";
 const std::string MENU_BACKGROUND = "menu_background.png";
+const std::string PAUSE_BACKGROUND = "pause_menu.png";
+const std::string SOUND_BUTTONS = "sound_button.png";
+const std::string URM_BUTTONS = "urm_buttons.png";
+const std::string VOLUME_BUTTONS = "volume_buttons.png";
 
 class Constants
 {

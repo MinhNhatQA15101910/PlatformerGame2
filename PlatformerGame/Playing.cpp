@@ -6,6 +6,7 @@ void Playing::InitClasses()
 	player = new Player(200, 200, SCALE, SCALE);
 
 	player->LoadLvlData(levelManager->GetCurrentLevel()->GetLvlData());
+	pauseOverlay = new PauseOverlay(gamestate, &paused);
 }
 
 void Playing::KeyReleased()
@@ -37,22 +38,26 @@ void Playing::KeyPressed()
 	case sf::Keyboard::Space:
 		player->SetJump(true);
 		break;
-	case sf::Keyboard::Backspace:
-		*gamestate = Constants::Gamestate::MENU;
+	case sf::Keyboard::Escape:
+		paused = !paused;
 		break;
 	}
 }
 
 void Playing::MouseButtonPressed()
 {
-	if (event->mouseButton.button == sf::Mouse::Left)
+	if (paused)
 	{
-		player->SetAttacking(true);
+		pauseOverlay->MouseButtonPressed(event);
 	}
 }
 
 void Playing::MouseButtonReleased()
 {
+	if (paused)
+	{
+		pauseOverlay->MouseButtonReleased(event);
+	}
 }
 
 void Playing::MouseEntered()
@@ -65,6 +70,10 @@ void Playing::MouseLeft()
 
 void Playing::MouseMoved()
 {
+	if (paused)
+	{
+		pauseOverlay->MouseMoved(event);
+	}
 }
 
 Playing::Playing(int* gamestate)
@@ -81,6 +90,7 @@ Playing::~Playing()
 	delete event;
 	delete player;
 	delete levelManager;
+	delete pauseOverlay;
 }
 
 Player* Playing::GetPlayer()
@@ -90,8 +100,15 @@ Player* Playing::GetPlayer()
 
 void Playing::UpdateProperties()
 {
-	levelManager->UpdateProperties();
-	player->UpdateProperties();
+	if (!paused)
+	{
+		levelManager->UpdateProperties();
+		player->UpdateProperties();
+	}
+	else
+	{
+		pauseOverlay->UpdateProperties();
+	}
 }
 
 void Playing::UpdateEvents(sf::Event* event)
@@ -107,6 +124,11 @@ void Playing::Render(sf::RenderTarget* renderTarget)
 {
 	levelManager->Render(renderTarget);
 	player->Render(renderTarget);
+
+	if (paused)
+	{
+		pauseOverlay->Render(renderTarget);
+	}
 }
 
 void Playing::KeyEventHandler()
