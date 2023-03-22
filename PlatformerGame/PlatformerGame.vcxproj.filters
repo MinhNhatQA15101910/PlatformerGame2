@@ -96,6 +96,15 @@
     <ClInclude Include="PauseOverlay.h">
       <Filter>Header Files\ui</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Crabby.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -143,6 +152,15 @@
     <ClCompile Include="PauseOverlay.cpp">
       <Filter>Header Files\ui</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Header Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Crabby.cpp">
+      <Filter>Header Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Header Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\brick.png">
@@ -179,6 +197,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\level_one_data_long.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\big_clouds.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\crabby_sprite.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\playing_bg_img.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\small_clouds.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

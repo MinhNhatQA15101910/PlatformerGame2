@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(float x, float y, float scaleX, float scaleY)
-    : Entity(x, y, scaleX, scaleY)
+Player::Player(float x, float y, float width, float height)
+    : Entity(x, y, width, height)
 {
     LoadAnimations();
     InitHitbox(x, y, (int)(20 * SCALE), (int)(27 * SCALE));
@@ -264,7 +264,11 @@ void Player::Render(sf::RenderTarget* renderTarget, float lvlOffset)
             hitbox->getPosition().y - yDrawOffset
         )
     );
-    animations[playerAction][aniIndex]->setScale(sf::Vector2f(scaleX, scaleY));
+    //animations[playerAction][aniIndex]->setScale(sf::Vector2f(scaleX, scaleY));
+    animations[playerAction][aniIndex]->setScale(sf::Vector2f(
+        width / ((texture->getSize().x) / spriteSize), 
+        height / ((texture->getSize().y) / animationSize)
+    ));
     renderTarget->draw(*animations[playerAction][aniIndex]);
     //DrawHitbox(renderTarget);
 }

@@ -13,12 +13,12 @@ void Entity::DrawHitbox(sf::RenderTarget* renderTarget)
 	renderTarget->draw(*hitbox);
 }
 
-Entity::Entity(float x, float y, float scaleX, float scaleY)
+Entity::Entity(float x, float y, float width, float height)
 {
 	this->x = x;
 	this->y = y;
-	this->scaleX = scaleX;
-	this->scaleY = scaleY;
+	this->width = width;
+	this->height = height;
 
 	InitHitbox(0, 0, 0, 0);
 }

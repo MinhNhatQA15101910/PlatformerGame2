@@ -40,7 +40,7 @@ private:
 	void SetAnimation();
 
 public:
-	Player(float x, float y, float scaleX, float scaleY);
+	Player(float x, float y, float width, float height);
 	~Player();
 
 	void ResetDirBools();

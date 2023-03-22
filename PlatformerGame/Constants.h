@@ -48,6 +48,12 @@ const int BIG_CLOUD_HEIGHT = (int)(BIG_CLOUD_HEIGHT_DEFAULT * SCALE);
 const int SMALL_CLOUD_WIDTH = (int)(SMALL_CLOUD_WIDTH_DEFAULT * SCALE);
 const int SMALL_CLOUD_HEIGHT = (int)(SMALL_CLOUD_HEIGHT_DEFAULT * SCALE);
 
+// Crabby
+const int CRABBY_WIDTH_DEFAULT = 72;
+const int CRABBY_HEIGHT_DEFAULT = 32;
+const int CRABBY_WIDTH = (int)(CRABBY_WIDTH_DEFAULT * SCALE);
+const int CRABBY_HEIGHT = (int)(CRABBY_HEIGHT_DEFAULT * SCALE);
+
 // Resource
 const std::string RES_FOLDER = "res";
 
@@ -65,6 +71,7 @@ const std::string MENU_BACKGROUND_IMG = "background_menu.png";
 const std::string PLAYING_BG_IMG = "playing_bg_img.png";
 const std::string BIG_CLOUDS = "big_clouds.png";
 const std::string SMALL_CLOUDS = "small_clouds.png";
+const std::string CRABBY_SPRITE = "crabby_sprite.png";
 
 class Constants
 {
@@ -83,6 +90,46 @@ public:
 		MENU = 1,
 		OPTIONS = 2,
 		QUIT = 3
+	};
+
+	class EnemyConstants
+	{
+	public:
+		enum Enemies
+		{
+			CRABBY = 0
+		};
+
+		enum EnemyStates
+		{
+			IDLE = 0,
+			RUNNING = 1,
+			ATTACK = 2,
+			HIT = 3,
+			DEAD = 4
+		};
+
+		static int GetSpriteAmount(int enemyType, int enemyState)
+		{
+			switch (enemyType)
+			{
+			case Enemies::CRABBY:
+				switch (enemyState)
+				{
+				case EnemyStates::IDLE:
+					return 9;
+				case EnemyStates::RUNNING:
+					return 6;
+				case EnemyStates::ATTACK:
+					return 7;
+				case EnemyStates::HIT:
+					return 4;
+				case EnemyStates::DEAD:
+					return 5;
+				}
+			}
+			return 0;
+		}
 	};
 
 	class PlayerConstants

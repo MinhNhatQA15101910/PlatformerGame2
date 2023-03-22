@@ -3,7 +3,8 @@
 void Playing::InitClasses()
 {
 	levelManager = new LevelManager();
-	player = new Player(200, 200, SCALE, SCALE);
+	enemyManager = new EnemyManager();
+	player = new Player(200, 200, 64 * SCALE, 40 * SCALE);
 
 	player->LoadLvlData(levelManager->GetCurrentLevel());
 	pauseOverlay = new PauseOverlay(gamestate, &paused);
@@ -137,6 +138,7 @@ Playing::~Playing()
 	delete event;
 	delete player;
 	delete levelManager;
+	delete enemyManager;
 	delete pauseOverlay;
 	delete backgroundSprite;
 	for (int i = 0; i < 3; i++)
@@ -163,6 +165,7 @@ void Playing::UpdateProperties()
 	{
 		levelManager->UpdateProperties();
 		player->UpdateProperties();
+		enemyManager->UpdateProperties();
 		CheckCloseToBorder();
 	}
 	else
@@ -216,6 +219,7 @@ void Playing::Render(sf::RenderTarget* renderTarget)
 
 	levelManager->Render(renderTarget, xLvlOffset);
 	player->Render(renderTarget, xLvlOffset);
+	enemyManager->Render(renderTarget, xLvlOffset);
 
 	if (paused)
 	{

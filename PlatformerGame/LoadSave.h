@@ -4,6 +4,7 @@
 
 #include "Constants.h"
 #include "Level.h"
+#include "Crabby.h"
 
 #include <iostream>
 
@@ -34,6 +35,28 @@ public:
 		}
 
 		return texture;
+	}
+
+	static std::vector<Crabby*>* GetCrabs()
+	{
+		sf::Image* image = GetImageAtlas(LEVEL_ONE_DATA);
+		unsigned int imageWidth = image->getSize().x;
+		unsigned int imageHeight = image->getSize().y;
+
+		std::vector<Crabby*>* list = new std::vector<Crabby*>();
+		for (unsigned int j = 0; j < imageHeight; j++)
+		{
+			for (unsigned int i = 0; i < imageWidth; i++)
+			{
+				sf::Color* color = new sf::Color(image->getPixel(i, j));
+				int value = color->g;
+				if (value == Constants::EnemyConstants::Enemies::CRABBY)
+				{
+					list->push_back(new Crabby(i * TILES_SIZE, j * TILES_SIZE));
+				}
+			}
+		}
+		return list;
 	}
 
 	static Level* GetLevelData()

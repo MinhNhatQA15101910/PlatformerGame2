@@ -8,7 +8,7 @@ class Entity
 {
 protected:
 	float x, y;
-	float scaleX, scaleY;
+	float width, height;
 	sf::RectangleShape* hitbox;
 
 	void InitHitbox(float x, float y, float width, float height);
@@ -16,7 +16,7 @@ protected:
 	void DrawHitbox(sf::RenderTarget* renderTarget);
 
 public:
-	Entity(float x, float y, float scaleX, float scaleY);
+	Entity(float x, float y, float width, float height);
 	~Entity();
 
 	sf::RectangleShape* GetHitbox();
