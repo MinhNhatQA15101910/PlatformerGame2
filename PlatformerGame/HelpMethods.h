@@ -1,13 +1,16 @@
 #pragma once
 
 #include "Constants.h"
+#include "Level.h"
+#include <vector>
 
 class HelpMethods
 {
 private:
-	static bool IsSolid(float x, float y, int** lvlData)
+	static bool IsSolid(float x, float y, Level* level)
 	{
-		if (x < 0 || x >= GAME_WIDTH)
+		float maxWidth = level->GetLvlDataWidth() * TILES_SIZE;
+		if (x < 0 || x >= maxWidth)
 		{
 			return true;
 		}
@@ -19,7 +22,7 @@ private:
 		float xIndex = x / TILES_SIZE;
 		float yIndex = y / TILES_SIZE;
 
-		int value = lvlData[(int)yIndex][(int)xIndex];
+		int value = level->GetLvlData()[(int)yIndex][(int)xIndex];
 
 		if (value >= 48 || value < 0 || value != 11)
 		{
@@ -30,15 +33,15 @@ private:
 	}
 
 public:
-	static bool CanMoveHere(float x, float y, float width, float height, int** lvlData)
+	static bool CanMoveHere(float x, float y, float width, float height, Level* level)
 	{
-		if (!IsSolid(x, y, lvlData))
+		if (!IsSolid(x, y, level))
 		{
-			if (!IsSolid(x + width, y + height, lvlData))
+			if (!IsSolid(x + width, y + height, level))
 			{
-				if (!IsSolid(x + width, y, lvlData))
+				if (!IsSolid(x + width, y, level))
 				{
-					if (!IsSolid(x, y + height, lvlData))
+					if (!IsSolid(x, y + height, level))
 					{
 						return true;
 					}
@@ -59,7 +62,7 @@ public:
 			float xOffset = TILES_SIZE - hitbox->getSize().x;
 			return tileXPos + xOffset - 1;
 		}
-		else 
+		else
 		{
 			// Left
 			return currentTile * TILES_SIZE;
@@ -83,19 +86,19 @@ public:
 		}
 	}
 
-	static bool IsEntityOnFloor(sf::RectangleShape* hitbox, int** lvlData)
+	static bool IsEntityOnFloor(sf::RectangleShape* hitbox, Level* level)
 	{
 		// Check the pixel below bottomleft and bottomright
 		if (!IsSolid(
 			hitbox->getPosition().x,
 			hitbox->getPosition().y + hitbox->getSize().y + 1,
-			lvlData
+			level
 		))
 		{
 			if (!IsSolid(
 				hitbox->getPosition().x + hitbox->getSize().x,
 				hitbox->getPosition().y + hitbox->getSize().y + 1,
-				lvlData
+				level
 			))
 			{
 				return false;

@@ -18,5 +18,7 @@ protected:
 public:
 	Entity(float x, float y, float scaleX, float scaleY);
 	~Entity();
+
+	sf::RectangleShape* GetHitbox();
 };
 

@@ -1,17 +1,16 @@
 #include "Player.h"
 
 Player::Player(float x, float y, float scaleX, float scaleY)
-	: Entity(x, y, scaleX, scaleY)
+    : Entity(x, y, scaleX, scaleY)
 {
-
     LoadAnimations();
-    InitHitbox(x, y,(int)(20 * SCALE),(int)(27 * SCALE));
+    InitHitbox(x, y, (int)(20 * SCALE), (int)(27 * SCALE));
 }
 
 Player::~Player()
 {
     delete texture;
-    delete lvlData;
+    delete level;
     for (int j = 0; j < animationSize; j++)
     {
         for (int i = 0; i < spriteSize; i++)
@@ -29,10 +28,10 @@ void Player::ResetDirBools()
     down = false;
 }
 
-void Player::LoadLvlData(int** lvlData)
+void Player::LoadLvlData(Level* level)
 {
-    this->lvlData = lvlData;
-    if (!HelpMethods::IsEntityOnFloor(hitbox, lvlData))
+    this->level = level;
+    if (!HelpMethods::IsEntityOnFloor(hitbox, level))
     {
         inAir = true;
     }
@@ -74,7 +73,7 @@ void Player::LoadAnimations()
 
     for (int j = 0; j < animationSize; j++)
     {
-        for (int i = 0; i < spriteSize; i++) 
+        for (int i = 0; i < spriteSize; i++)
         {
             animations[j][i] = new sf::Sprite();
             animations[j][i]->setTexture(*texture);
@@ -97,9 +96,13 @@ void Player::UpdatePos()
     {
         Jump();
     }
-    if (!left && !right && !inAir)
+
+    if (!inAir)
     {
-        return;
+        if ((!left && !right) || (right && left))
+        {
+            return;
+        }
     }
 
     float xSpeed = 0;
@@ -115,7 +118,7 @@ void Player::UpdatePos()
 
     if (!inAir)
     {
-        if (!HelpMethods::IsEntityOnFloor(hitbox, lvlData))
+        if (!HelpMethods::IsEntityOnFloor(hitbox, level))
         {
             inAir = true;
         }
@@ -128,17 +131,17 @@ void Player::UpdatePos()
             hitbox->getPosition().y + airSpeed,
             hitbox->getSize().x,
             hitbox->getSize().y,
-            lvlData
+            level
         ))
         {
             hitbox->setPosition(
-                hitbox->getPosition().x, 
+                hitbox->getPosition().x,
                 hitbox->getPosition().y + airSpeed
             );
             airSpeed += gravity;
             UpdateXPos(xSpeed);
         }
-        else 
+        else
         {
             hitbox->setPosition(
                 hitbox->getPosition().x,
@@ -172,7 +175,7 @@ void Player::UpdateXPos(float xSpeed)
         hitbox->getPosition().y,
         hitbox->getSize().x,
         hitbox->getSize().y,
-        lvlData
+        level
     ))
     {
         hitbox->setPosition(
@@ -229,7 +232,7 @@ void Player::SetAnimation()
         {
             playerAction = Constants::PlayerConstants::PlayerStates::JUMP;
         }
-        else 
+        else
         {
             playerAction = Constants::PlayerConstants::PlayerStates::FALLING;
         }
@@ -239,7 +242,7 @@ void Player::SetAnimation()
     {
         playerAction = Constants::PlayerConstants::PlayerStates::ATTACK_1;
     }
-    
+
     if (startAni != playerAction)
     {
         ResetAniTick();
@@ -253,11 +256,11 @@ void Player::UpdateProperties()
     SetAnimation();
 }
 
-void Player::Render(sf::RenderTarget* renderTarget)
+void Player::Render(sf::RenderTarget* renderTarget, float lvlOffset)
 {
     animations[playerAction][aniIndex]->setPosition(
         sf::Vector2f(
-            hitbox->getPosition().x - xDrawOffset, 
+            hitbox->getPosition().x - xDrawOffset - lvlOffset,
             hitbox->getPosition().y - yDrawOffset
         )
     );

@@ -7,6 +7,11 @@ Menu::Menu(int* gamestate)
 
 	LoadButtons();
 	LoadBackground();
+
+	backgroundTexturePink = LoadSave::GetTextureAtlas(MENU_BACKGROUND_IMG);
+
+	backgroundSpritePink = new sf::Sprite();
+	backgroundSpritePink->setTexture(*backgroundTexturePink);
 }
 
 Menu::~Menu()
@@ -14,7 +19,9 @@ Menu::~Menu()
 	State::~State();
 	delete event;
 	delete backgroundSprite;
+	delete backgroundSpritePink;
 	delete backgroundTexture;
+	delete backgroundTexturePink;
 	for (int i = 0; i < 3; i++)
 	{
 		delete buttons[i];
@@ -40,6 +47,10 @@ void Menu::UpdateEvents(sf::Event* event)
 
 void Menu::Render(sf::RenderTarget* renderTarget)
 {
+	backgroundSpritePink->setPosition(0.f, 0.f);
+	backgroundSpritePink->setScale(sf::Vector2f(SCALE, SCALE));
+	renderTarget->draw(*backgroundSpritePink);
+
 	backgroundSprite->setPosition(menuX, menuY);
 	backgroundSprite->setScale(sf::Vector2f(SCALE, SCALE));
 	renderTarget->draw(*backgroundSprite);

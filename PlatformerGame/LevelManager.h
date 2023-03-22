@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "LoadSave.h"
-#include "Level.h"
 #include "Constants.h"
 
 class LevelManager
@@ -23,6 +22,6 @@ public:
 
 	void UpdateProperties();
 
-	void Render(sf::RenderTarget* renderTarget);
+	void Render(sf::RenderTarget* renderTarget, float lvlOffset);
 };
 

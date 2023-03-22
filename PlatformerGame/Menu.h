@@ -9,14 +9,14 @@
 
 #include <iostream>
 
-class Menu : public State, public Statemethods, public EventHandler 
+class Menu : public State, public Statemethods, public EventHandler
 {
 private:
 	sf::Event* event;
 
 	MenuButton* buttons[3];
-	sf::Texture* backgroundTexture;
-	sf::Sprite* backgroundSprite;
+	sf::Texture* backgroundTexture, * backgroundTexturePink;
+	sf::Sprite* backgroundSprite, * backgroundSpritePink;
 	float menuX, menuY, menuWidth, menuHeight;
 
 	void LoadButtons();

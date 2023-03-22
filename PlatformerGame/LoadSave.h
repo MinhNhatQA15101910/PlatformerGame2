@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Constants.h"
+#include "Level.h"
 
 #include <iostream>
 
@@ -35,15 +36,17 @@ public:
 		return texture;
 	}
 
-	static int** GetLevelData()
+	static Level* GetLevelData()
 	{
 		sf::Image* image = GetImageAtlas(LEVEL_ONE_DATA);
+		unsigned int imageWidth = image->getSize().x;
+		unsigned int imageHeight = image->getSize().y;
 
-		int** lvlData = new int*[TILES_IN_HEIGHT];
-		for (unsigned int j = 0; j < image->getSize().y; j++)
+		int** lvlData = new int*[imageHeight];
+		for (unsigned int j = 0; j < imageHeight; j++)
 		{
-			lvlData[j] = new int[TILES_IN_WIDTH];
-			for (unsigned int i = 0; i < image->getSize().x; i++)
+			lvlData[j] = new int[imageWidth];
+			for (unsigned int i = 0; i < imageWidth; i++)
 			{
 				sf::Color* color = new sf::Color(image->getPixel(i, j));
 				int value = color->r;
@@ -52,6 +55,8 @@ public:
 			}
 		}
 
-		return lvlData;
+		Level* level = new Level(lvlData, imageWidth, imageHeight);
+
+		return level;
 	}
 };

@@ -5,8 +5,32 @@ void Playing::InitClasses()
 	levelManager = new LevelManager();
 	player = new Player(200, 200, SCALE, SCALE);
 
-	player->LoadLvlData(levelManager->GetCurrentLevel()->GetLvlData());
+	player->LoadLvlData(levelManager->GetCurrentLevel());
 	pauseOverlay = new PauseOverlay(gamestate, &paused);
+}
+
+void Playing::CheckCloseToBorder()
+{
+	float playerX = player->GetHitbox()->getPosition().x;
+	float diff = playerX - xLvlOffset;
+
+	if (diff > rightBorder)
+	{
+		xLvlOffset += diff - rightBorder;
+	}
+	else if (diff < leftBorder)
+	{
+		xLvlOffset += diff - leftBorder;
+	}
+
+	if (xLvlOffset > maxLvlOffsetX)
+	{
+		xLvlOffset = maxLvlOffsetX;
+	}
+	else if (xLvlOffset < 0)
+	{
+		xLvlOffset = 0;
+	}
 }
 
 void Playing::KeyReleased()
@@ -104,6 +128,7 @@ void Playing::UpdateProperties()
 	{
 		levelManager->UpdateProperties();
 		player->UpdateProperties();
+		CheckCloseToBorder();
 	}
 	else
 	{
@@ -122,11 +147,17 @@ void Playing::UpdateEvents(sf::Event* event)
 
 void Playing::Render(sf::RenderTarget* renderTarget)
 {
-	levelManager->Render(renderTarget);
-	player->Render(renderTarget);
+	levelManager->Render(renderTarget, xLvlOffset);
+	player->Render(renderTarget, xLvlOffset);
 
 	if (paused)
 	{
+		sf::RectangleShape rectangle;
+		rectangle.setFillColor(sf::Color(0, 0, 0, 150));
+		rectangle.setPosition(0, 0);
+		rectangle.setSize(sf::Vector2f(GAME_WIDTH, GAME_HEIGHT));
+		renderTarget->draw(rectangle);
+
 		pauseOverlay->Render(renderTarget);
 	}
 }

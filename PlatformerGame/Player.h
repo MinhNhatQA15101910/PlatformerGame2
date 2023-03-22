@@ -4,7 +4,7 @@
 #include "LoadSave.h"
 #include "HelpMethods.h"
 
-class Player : private Entity
+class Player : public Entity
 {
 private:
 	// Core
@@ -16,7 +16,7 @@ private:
 	bool moving = false, attacking = false;
 	bool left, up, right, down, jump;
 	float playerSpeed = 1.0f * SCALE;
-	int** lvlData; 
+	Level* level;
 	float xDrawOffset = 21 * SCALE;
 	float yDrawOffset = 4 * SCALE;
 
@@ -44,7 +44,7 @@ public:
 	~Player();
 
 	void ResetDirBools();
-	void LoadLvlData(int** lvlData);
+	void LoadLvlData(Level* level);
 
 	void SetLeft(bool left);
 	void SetRight(bool right);
@@ -53,5 +53,5 @@ public:
 
 	void UpdateProperties();
 
-	void Render(sf::RenderTarget* renderTarget);
+	void Render(sf::RenderTarget* renderTarget, float lvlOffset);
 };

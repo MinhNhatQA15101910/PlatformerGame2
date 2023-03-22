@@ -44,13 +44,15 @@ const std::string RES_FOLDER = "res";
 const std::string ICON_IMAGE = "brick.png";
 const std::string PLAYER_ATLAS = "player_sprites.png";
 const std::string LEVEL_ATLAS = "outside_sprites.png";
-const std::string LEVEL_ONE_DATA = "level_one_data.png";
+//const std::string LEVEL_ONE_DATA = "level_one_data.png";
+const std::string LEVEL_ONE_DATA = "level_one_data_long.png";
 const std::string MENU_BUTTONS = "button_atlas.png";
 const std::string MENU_BACKGROUND = "menu_background.png";
 const std::string PAUSE_BACKGROUND = "pause_menu.png";
 const std::string SOUND_BUTTONS = "sound_button.png";
 const std::string URM_BUTTONS = "urm_buttons.png";
 const std::string VOLUME_BUTTONS = "volume_buttons.png";
+const std::string MENU_BACKGROUND_IMG = "background_menu.png";
 
 class Constants
 {
@@ -76,20 +78,20 @@ public:
 	public:
 		enum PlayerStates
 		{
-			IDLE = 0, 
+			IDLE = 0,
 			RUNNING = 1,
-			JUMP = 2, 
-			FALLING = 3, 
-			GROUND = 4, 
-			HIT = 5, 
+			JUMP = 2,
+			FALLING = 3,
+			GROUND = 4,
+			HIT = 5,
 			ATTACK_1 = 6,
-			ATTACK_JUMP_1 = 7, 
+			ATTACK_JUMP_1 = 7,
 			ATTACK_JUMP_2 = 8
 		};
 
 		static int GetSpriteAmount(int playerAction)
 		{
-			switch (playerAction) 
+			switch (playerAction)
 			{
 			case PlayerStates::RUNNING:
 				return 6;

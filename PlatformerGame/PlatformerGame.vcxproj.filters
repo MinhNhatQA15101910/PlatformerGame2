@@ -175,5 +175,11 @@
     <Image Include="res\volume_buttons.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\background_menu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\level_one_data_long.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

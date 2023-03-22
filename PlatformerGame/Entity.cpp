@@ -27,3 +27,8 @@ Entity::~Entity()
 {
 	delete hitbox;
 }
+
+sf::RectangleShape* Entity::GetHitbox()
+{
+	return hitbox;
+}

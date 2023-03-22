@@ -17,7 +17,16 @@ private:
 	PauseOverlay* pauseOverlay;
 	bool paused = false;
 
+	float xLvlOffset;
+	float leftBorder = 0.2f * GAME_WIDTH;
+	float rightBorder = 0.8f * GAME_WIDTH;
+	float lvlTilesWide = (float)(LoadSave::GetLevelData()->GetLvlDataWidth());
+	float maxTilesOffset = lvlTilesWide - TILES_IN_WIDTH;
+	float maxLvlOffsetX = maxTilesOffset * TILES_SIZE;
+
 	void InitClasses();
+
+	void CheckCloseToBorder();
 
 	// Key handler
 	void KeyReleased();
