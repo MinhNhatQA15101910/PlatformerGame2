@@ -24,6 +24,10 @@ private:
 	float maxTilesOffset = lvlTilesWide - TILES_IN_WIDTH;
 	float maxLvlOffsetX = maxTilesOffset * TILES_SIZE;
 
+	sf::Texture* backgroundTexture, * bigCloudTexture, * smallCloudTexture;
+	sf::Sprite* backgroundSprite, * bigCloudSprites[3], * smallCloudSprites[8];
+	float smallCloudsPos[8];
+
 	void InitClasses();
 
 	void CheckCloseToBorder();
@@ -50,6 +54,7 @@ public:
 	void UpdateProperties();
 	void UpdateEvents(sf::Event* event);
 
+	void RenderClouds(sf::RenderTarget* renderTarget);
 	void Render(sf::RenderTarget* renderTarget);
 
 	void KeyEventHandler();

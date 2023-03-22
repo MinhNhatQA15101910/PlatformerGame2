@@ -106,6 +106,29 @@ Playing::Playing(int* gamestate)
 	event = new sf::Event();
 
 	InitClasses();
+
+	backgroundTexture = LoadSave::GetTextureAtlas(PLAYING_BG_IMG);
+	backgroundSprite = new sf::Sprite();
+	backgroundSprite->setTexture(*backgroundTexture);
+
+	bigCloudTexture = LoadSave::GetTextureAtlas(BIG_CLOUDS);
+	for (int i = 0; i < 3; i++)
+	{
+		bigCloudSprites[i] = new sf::Sprite();
+		bigCloudSprites[i]->setTexture(*bigCloudTexture);
+	}
+
+	smallCloudTexture = LoadSave::GetTextureAtlas(SMALL_CLOUDS);
+	for (int i = 0; i < 8; i++)
+	{
+		smallCloudSprites[i] = new sf::Sprite();
+		smallCloudSprites[i]->setTexture(*smallCloudTexture);
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		smallCloudsPos[i] = (90 * SCALE) + (rand() % (int)(100 * SCALE));
+	}
 }
 
 Playing::~Playing()
@@ -115,6 +138,18 @@ Playing::~Playing()
 	delete player;
 	delete levelManager;
 	delete pauseOverlay;
+	delete backgroundSprite;
+	for (int i = 0; i < 3; i++)
+	{
+		delete bigCloudSprites[i];
+	}
+	for (int i = 0; i < 8; i++)
+	{
+		delete smallCloudSprites[i];
+	}
+	delete backgroundTexture;
+	delete bigCloudTexture;
+	delete smallCloudTexture;
 }
 
 Player* Playing::GetPlayer()
@@ -145,8 +180,40 @@ void Playing::UpdateEvents(sf::Event* event)
 	MouseMoveEventHandler();
 }
 
+void Playing::RenderClouds(sf::RenderTarget* renderTarget)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		bigCloudSprites[i]->setPosition(
+			i * BIG_CLOUD_WIDTH - xLvlOffset * 0.3f,
+			204 * SCALE
+		);
+		bigCloudSprites[i]->setScale(sf::Vector2f(SCALE, SCALE));
+		renderTarget->draw(*bigCloudSprites[i]);
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		smallCloudSprites[i]->setPosition(
+			SMALL_CLOUD_WIDTH * 4 * i - xLvlOffset * 0.7f, 
+			smallCloudsPos[i]
+		);
+		smallCloudSprites[i]->setScale(sf::Vector2f(SCALE, SCALE));
+		renderTarget->draw(*smallCloudSprites[i]);
+	}
+}
+
 void Playing::Render(sf::RenderTarget* renderTarget)
 {
+	backgroundSprite->setPosition(0, 0);
+	backgroundSprite->setScale(sf::Vector2f(
+		GAME_WIDTH / backgroundTexture->getSize().x, 
+		GAME_HEIGHT / backgroundTexture->getSize().y
+	));
+	renderTarget->draw(*backgroundSprite);
+
+	RenderClouds(renderTarget);
+
 	levelManager->Render(renderTarget, xLvlOffset);
 	player->Render(renderTarget, xLvlOffset);
 

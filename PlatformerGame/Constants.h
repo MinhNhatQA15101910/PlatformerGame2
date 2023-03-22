@@ -38,13 +38,22 @@ const int VOLUME_WIDTH = (int)(VOLUME_DEFAULT_WIDTH * SCALE);
 const int VOLUME_HEIGHT = (int)(VOLUME_DEFAULT_HEIGHT * SCALE);
 const int SLIDER_WIDTH = (int)(SLIDER_DEFAULT_WIDTH * SCALE);
 
+// Environment
+const int BIG_CLOUD_WIDTH_DEFAULT = 448;
+const int BIG_CLOUD_HEIGHT_DEFAULT = 101;
+const int SMALL_CLOUD_WIDTH_DEFAULT = 74;
+const int SMALL_CLOUD_HEIGHT_DEFAULT = 24;
+const int BIG_CLOUD_WIDTH = (int)(BIG_CLOUD_WIDTH_DEFAULT * SCALE);
+const int BIG_CLOUD_HEIGHT = (int)(BIG_CLOUD_HEIGHT_DEFAULT * SCALE);
+const int SMALL_CLOUD_WIDTH = (int)(SMALL_CLOUD_WIDTH_DEFAULT * SCALE);
+const int SMALL_CLOUD_HEIGHT = (int)(SMALL_CLOUD_HEIGHT_DEFAULT * SCALE);
+
 // Resource
 const std::string RES_FOLDER = "res";
 
 const std::string ICON_IMAGE = "brick.png";
 const std::string PLAYER_ATLAS = "player_sprites.png";
 const std::string LEVEL_ATLAS = "outside_sprites.png";
-//const std::string LEVEL_ONE_DATA = "level_one_data.png";
 const std::string LEVEL_ONE_DATA = "level_one_data_long.png";
 const std::string MENU_BUTTONS = "button_atlas.png";
 const std::string MENU_BACKGROUND = "menu_background.png";
@@ -53,6 +62,9 @@ const std::string SOUND_BUTTONS = "sound_button.png";
 const std::string URM_BUTTONS = "urm_buttons.png";
 const std::string VOLUME_BUTTONS = "volume_buttons.png";
 const std::string MENU_BACKGROUND_IMG = "background_menu.png";
+const std::string PLAYING_BG_IMG = "playing_bg_img.png";
+const std::string BIG_CLOUDS = "big_clouds.png";
+const std::string SMALL_CLOUDS = "small_clouds.png";
 
 class Constants
 {
