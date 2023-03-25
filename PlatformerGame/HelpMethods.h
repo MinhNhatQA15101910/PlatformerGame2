@@ -22,17 +22,21 @@ private:
 		float xIndex = x / TILES_SIZE;
 		float yIndex = y / TILES_SIZE;
 
-		int value = level->GetLvlData()[(int)yIndex][(int)xIndex];
+		return IsTileSolid((int)xIndex, (int)yIndex, level);
+	}
+
+public:
+	static bool IsTileSolid(int xTile, int yTile, Level* level)
+	{
+		int value = level->GetLvlData()[yTile][xTile];
 
 		if (value >= 48 || value < 0 || value != 11)
 		{
 			return true;
 		}
-
 		return false;
 	}
 
-public:
 	static bool CanMoveHere(float x, float y, float width, float height, Level* level)
 	{
 		if (!IsSolid(x, y, level))
@@ -109,10 +113,11 @@ public:
 	}
 
 	/*
-	* We just check the bottomleft of the enemy here +/- the xSpeed. We never check bottom right in case the
-	* enemy is going to the right. It would be more correct checking the bottomleft for left direction
-	* and bottomright for the right direction. But it won't have big effect in the game. The enemy will simply change
-	* direction sooner when there is an edge on the right side of the enemy, when it's going right.
+	* We just check the bottomleft of the enemy here +/- the xSpeed. We never check 
+	* bottom right in case the enemy is going to the right. It would be more 
+	* correct checking the bottomleft for left direction and bottomright for the right direction. But it won't have big effect in the game. The enemy will 
+	* simply change direction sooner when there is an edge on the right side of the 
+	* enemy, when it's going right.
 	*/
 	static bool IsFloor(sf::RectangleShape* hitbox, float xSpeed, Level* level)
 	{
@@ -121,5 +126,37 @@ public:
 			hitbox->getPosition().y + hitbox->getSize().y + 1,
 			level
 		);
+	}
+
+	static bool IsAllTilesWalkable(int xStart, int xEnd, int y, Level* level)
+	{
+		for (int i = 0; i < xEnd - xStart; i++)
+		{
+			if (IsTileSolid(xStart + i, y, level))
+			{
+				return false;
+			}
+			if (!IsTileSolid(xStart + i, y + 1, level))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	static bool IsSightClear(Level* level, sf::RectangleShape* firstHitbox, sf::RectangleShape* secondHitbox, int yTile)
+	{
+		int firstXTile = (int)(firstHitbox->getPosition().x / TILES_SIZE);
+		int secondXTile = (int)(secondHitbox->getPosition().x / TILES_SIZE);
+
+		if (firstXTile > secondXTile)
+		{
+			return IsAllTilesWalkable(secondXTile, firstXTile, yTile, level);
+		}
+		else
+		{
+			return IsAllTilesWalkable(firstXTile, secondXTile, yTile, level);
+		}
 	}
 };

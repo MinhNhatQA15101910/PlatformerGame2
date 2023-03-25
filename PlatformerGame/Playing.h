@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Player.h"
 #include "LevelManager.h"
 #include "Statemethods.h"
 #include "State.h"

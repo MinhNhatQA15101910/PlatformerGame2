@@ -21,7 +21,7 @@ void EnemyManager::LoadEnemySprites()
 
 void EnemyManager::AddEnemies()
 {
-	crabbies = LoadSave::GetCrabs();
+	crabbies = GetCrabs();
 }
 
 void EnemyManager::DrawCrabs(sf::RenderTarget* renderTarget, float xLvlOffset)
@@ -60,15 +60,37 @@ EnemyManager::~EnemyManager()
 	delete crabbies;
 }
 
-void EnemyManager::UpdateProperties(Level* level)
+void EnemyManager::UpdateProperties(Level* level, Player* player)
 {
 	for (Crabby* c : *crabbies)
 	{
-		c->UpdateProperties(level);
+		c->UpdateProperties(level, player);
 	}
 }
 
 void EnemyManager::Render(sf::RenderTarget* renderTarget, float xLvlOffset)
 {
 	DrawCrabs(renderTarget, xLvlOffset);
+}
+
+std::vector<Crabby*>* GetCrabs()
+{
+	sf::Image* image = LoadSave::GetImageAtlas(LEVEL_ONE_DATA);
+	unsigned int imageWidth = image->getSize().x;
+	unsigned int imageHeight = image->getSize().y;
+
+	std::vector<Crabby*>* list = new std::vector<Crabby*>();
+	for (unsigned int j = 0; j < imageHeight; j++)
+	{
+		for (unsigned int i = 0; i < imageWidth; i++)
+		{
+			sf::Color* color = new sf::Color(image->getPixel(i, j));
+			int value = color->g;
+			if (value == Constants::EnemyConstants::Enemies::CRABBY)
+			{
+				list->push_back(new Crabby(i * TILES_SIZE, j * TILES_SIZE));
+			}
+		}
+	}
+	return list;
 }

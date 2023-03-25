@@ -1,5 +1,121 @@
 #include "Enemy.h"
 
+void Enemy::FirstUpdateCheck(Level* level)
+{
+	if (!HelpMethods::IsEntityOnFloor(hitbox, level))
+	{
+		inAir = true;
+	}
+	firstUpdate = false;
+}
+
+void Enemy::UpdateInAir(Level* level)
+{
+	if (HelpMethods::CanMoveHere(
+		hitbox->getPosition().x,
+		hitbox->getPosition().y + fallSpeed,
+		hitbox->getSize().x,
+		hitbox->getSize().y,
+		level
+	))
+	{
+		hitbox->move(sf::Vector2f(0, fallSpeed));
+		fallSpeed += gravity;
+	}
+	else
+	{
+		inAir = false;
+		hitbox->setPosition(
+			hitbox->getPosition().x, 
+			HelpMethods::GetEntityYPosUnderRoofOrAboveFloor(hitbox, fallSpeed)
+		);
+		tileY = (int)(hitbox->getPosition().y / TILES_SIZE);
+	}
+}
+
+void Enemy::Move(Level* level)
+{
+	float xSpeed = 0;
+
+	if (walkDir == Constants::Directions::LEFT)
+	{
+		xSpeed = -walkSpeed;
+	}
+	else
+	{
+		xSpeed = walkSpeed;
+	}
+
+	if (HelpMethods::CanMoveHere(
+		hitbox->getPosition().x + xSpeed,
+		hitbox->getPosition().y,
+		hitbox->getSize().x,
+		hitbox->getSize().y,
+		level
+	))
+	{
+		if (HelpMethods::IsFloor(hitbox, xSpeed, level))
+		{
+			hitbox->move(sf::Vector2f(xSpeed, 0));
+			return;
+		}
+	}
+
+	ChangeWalkDir();
+}
+
+void Enemy::NewState(int enemyState)
+{
+	this->enemyState = enemyState;
+	aniTick = 0;
+	aniIndex = 0;
+}
+
+void Enemy::TurnTowardsPlayer(Player* player)
+{
+	if (player->GetHitbox()->getPosition().x > hitbox->getPosition().x)
+	{
+		walkDir = Constants::Directions::RIGHT;
+	}
+	else
+	{
+		walkDir = Constants::Directions::LEFT;
+	}
+}
+
+bool Enemy::IsPlayerInRange(Player* player)
+{
+	int absValue = (int)abs(player->GetHitbox()->getPosition().x - hitbox->getPosition().x);
+
+	return (absValue <= attackDistance * 5);
+}
+
+bool Enemy::IsPlayerCloseForAttack(Player* player)
+{
+	int absValue = (int)abs(player->GetHitbox()->getPosition().x - hitbox->getPosition().x);
+
+	return (absValue <= attackDistance);
+}
+
+bool Enemy::CanSeePlayer(Level* level, Player* player)
+{
+	int playerTileY = (int)(player->GetHitbox()->getPosition().y / TILES_SIZE);
+	{
+		if (playerTileY == tileY)
+		{
+			if (IsPlayerInRange(player))
+			{
+				if (HelpMethods::IsSightClear(level, hitbox, player->GetHitbox(), tileY))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+}
+
 void Enemy::UpdateAnimationTick()
 {
 	aniTick++;
@@ -10,85 +126,10 @@ void Enemy::UpdateAnimationTick()
 		if (aniIndex >= Constants::EnemyConstants::GetSpriteAmount(enemyType, enemyState))
 		{
 			aniIndex = 0;
-		}
-	}
-}
-
-void Enemy::UpdateMove(Level* level)
-{
-	if (firstUpdate)
-	{
-		if (!HelpMethods::IsEntityOnFloor(hitbox, level))
-		{
-			inAir = true;
-		}
-		firstUpdate = false;
-	}
-
-	if (inAir)
-	{
-		if (HelpMethods::CanMoveHere(
-			hitbox->getPosition().x,
-			hitbox->getPosition().y + fallSpeed,
-			hitbox->getSize().x,
-			hitbox->getSize().y,
-			level
-			)
-		)
-		{
-			hitbox->move(sf::Vector2f(0, fallSpeed));
-			fallSpeed += gravity;
-		}
-		else
-		{
-			inAir = false;
-			hitbox->setPosition(
-				hitbox->getPosition().x,
-				HelpMethods::GetEntityYPosUnderRoofOrAboveFloor(hitbox, fallSpeed)
-			);
-		}
-	}
-	else
-	{
-		switch (enemyState)
-		{
-		case Constants::EnemyConstants::EnemyStates::IDLE:
-			enemyState = Constants::EnemyConstants::EnemyStates::RUNNING;
-			break;
-		case Constants::EnemyConstants::EnemyStates::RUNNING:
-			float xSpeed = 0;
-
-			if (walkDir == Constants::Directions::LEFT)
+			if (enemyState == Constants::EnemyConstants::EnemyStates::ATTACK)
 			{
-				xSpeed = -walkSpeed;
+				enemyState = Constants::EnemyConstants::EnemyStates::IDLE;
 			}
-			else
-			{
-				xSpeed = walkSpeed;
-			}
-
-			if 
-			(
-				HelpMethods::CanMoveHere
-				(
-					hitbox->getPosition().x + xSpeed, 
-					hitbox->getPosition().y,
-					hitbox->getSize().x, 
-					hitbox->getSize().y, 
-					level
-				)
-			)
-			{
-				if (HelpMethods::IsFloor(hitbox, xSpeed, level))
-				{
-					hitbox->move(sf::Vector2f(xSpeed, 0));
-					return;
-				}
-			}
-
-			ChangeWalkDir();
-
-			break;
 		}
 	}
 }
@@ -124,10 +165,4 @@ int Enemy::GetAniIndex()
 int Enemy::GetEnemyState()
 {
 	return enemyState;
-}
-
-void Enemy::UpdateProperties(Level* level)
-{
-	UpdateMove(level);
-	UpdateAnimationTick();
 }

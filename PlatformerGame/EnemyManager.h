@@ -18,8 +18,9 @@ public:
 	EnemyManager();
 	~EnemyManager();
 
-	void UpdateProperties(Level* level);
+	void UpdateProperties(Level* level, Player* player);
 
 	void Render(sf::RenderTarget* renderTarget, float xLvlOffset);
 };
 
+std::vector<Crabby*>* GetCrabs();

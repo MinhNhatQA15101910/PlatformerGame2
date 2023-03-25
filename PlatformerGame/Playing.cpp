@@ -170,7 +170,7 @@ void Playing::UpdateProperties()
 	{
 		levelManager->UpdateProperties();
 		player->UpdateProperties();
-		enemyManager->UpdateProperties(levelManager->GetCurrentLevel());
+		enemyManager->UpdateProperties(levelManager->GetCurrentLevel(), player);
 		CheckCloseToBorder();
 	}
 	else

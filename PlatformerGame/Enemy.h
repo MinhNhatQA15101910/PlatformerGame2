@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Entity.h"
-#include "HelpMethods.h"
+#include "Player.h"
 
 class Enemy : public Entity
 {
-private:
+protected:
 	int aniIndex, enemyState, enemyType;
 	int aniTick, aniSpeed = 25;
 	bool firstUpdate = true;
@@ -14,10 +13,21 @@ private:
 	float gravity = 0.04f * SCALE;
 	float walkSpeed = 0.35f * SCALE;
 	int walkDir = Constants::Directions::LEFT;
+	int tileY;
+	float attackDistance = TILES_SIZE;
+
+	void TurnTowardsPlayer(Player* player);
+	bool IsPlayerInRange(Player* player);
+	bool IsPlayerCloseForAttack(Player* player);
+	bool CanSeePlayer(Level* level, Player* player);
+
+	void FirstUpdateCheck(Level* level);
+	void UpdateInAir(Level* level);
+	void Move(Level* level);
+
+	void NewState(int enemyState);
 
 	void UpdateAnimationTick();
-	void UpdateMove(Level* level);
-
 	void ChangeWalkDir();
 
 public:
@@ -26,7 +36,5 @@ public:
 
 	int GetAniIndex();
 	int GetEnemyState();
-
-	void UpdateProperties(Level* level);
 };
 
