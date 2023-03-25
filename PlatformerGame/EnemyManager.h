@@ -18,7 +18,7 @@ public:
 	EnemyManager();
 	~EnemyManager();
 
-	void UpdateProperties();
+	void UpdateProperties(Level* level);
 
 	void Render(sf::RenderTarget* renderTarget, float xLvlOffset);
 };

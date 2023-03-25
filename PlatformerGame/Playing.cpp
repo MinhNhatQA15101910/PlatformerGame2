@@ -71,6 +71,11 @@ void Playing::KeyPressed()
 
 void Playing::MouseButtonPressed()
 {
+	if (event->mouseButton.button == sf::Mouse::Button::Left)
+	{
+		player->SetAttacking(true);
+	}
+
 	if (paused)
 	{
 		pauseOverlay->MouseButtonPressed(event);
@@ -165,7 +170,7 @@ void Playing::UpdateProperties()
 	{
 		levelManager->UpdateProperties();
 		player->UpdateProperties();
-		enemyManager->UpdateProperties();
+		enemyManager->UpdateProperties(levelManager->GetCurrentLevel());
 		CheckCloseToBorder();
 	}
 	else

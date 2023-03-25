@@ -13,7 +13,7 @@ protected:
 
 	void InitHitbox(float x, float y, float width, float height);
 
-	void DrawHitbox(sf::RenderTarget* renderTarget);
+	void DrawHitbox(sf::RenderTarget* renderTarget, int xLvlOffset);
 
 public:
 	Entity(float x, float y, float width, float height);

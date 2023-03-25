@@ -107,4 +107,19 @@ public:
 
 		return true;
 	}
+
+	/*
+	* We just check the bottomleft of the enemy here +/- the xSpeed. We never check bottom right in case the
+	* enemy is going to the right. It would be more correct checking the bottomleft for left direction
+	* and bottomright for the right direction. But it won't have big effect in the game. The enemy will simply change
+	* direction sooner when there is an edge on the right side of the enemy, when it's going right.
+	*/
+	static bool IsFloor(sf::RectangleShape* hitbox, float xSpeed, Level* level)
+	{
+		return IsSolid(
+			hitbox->getPosition().x + xSpeed, 
+			hitbox->getPosition().y + hitbox->getSize().y + 1,
+			level
+		);
+	}
 };

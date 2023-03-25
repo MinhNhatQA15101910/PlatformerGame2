@@ -22,7 +22,6 @@ void EnemyManager::LoadEnemySprites()
 void EnemyManager::AddEnemies()
 {
 	crabbies = LoadSave::GetCrabs();
-	std::cout << "Size of crabs: " + std::to_string(crabbies->size());
 }
 
 void EnemyManager::DrawCrabs(sf::RenderTarget* renderTarget, float xLvlOffset)
@@ -30,8 +29,8 @@ void EnemyManager::DrawCrabs(sf::RenderTarget* renderTarget, float xLvlOffset)
 	for (Crabby* c : *crabbies)
 	{
 		crabbySprites[c->GetEnemyState()][c->GetAniIndex()]->setPosition(
-			c->GetHitbox()->getPosition().x - xLvlOffset, 
-			c->GetHitbox()->getPosition().y
+			c->GetHitbox()->getPosition().x - xLvlOffset - CRABBY_DRAWOFFSET_X, 
+			c->GetHitbox()->getPosition().y - CRABBY_DRAWOFFSET_Y
 		);
 		crabbySprites[c->GetEnemyState()][c->GetAniIndex()]->setScale(sf::Vector2f(SCALE, SCALE));
 		renderTarget->draw(*crabbySprites[c->GetEnemyState()][c->GetAniIndex()]);
@@ -61,11 +60,11 @@ EnemyManager::~EnemyManager()
 	delete crabbies;
 }
 
-void EnemyManager::UpdateProperties()
+void EnemyManager::UpdateProperties(Level* level)
 {
 	for (Crabby* c : *crabbies)
 	{
-		c->UpdateProperties();
+		c->UpdateProperties(level);
 	}
 }
 

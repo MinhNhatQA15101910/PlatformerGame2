@@ -264,11 +264,10 @@ void Player::Render(sf::RenderTarget* renderTarget, float lvlOffset)
             hitbox->getPosition().y - yDrawOffset
         )
     );
-    //animations[playerAction][aniIndex]->setScale(sf::Vector2f(scaleX, scaleY));
     animations[playerAction][aniIndex]->setScale(sf::Vector2f(
         width / ((texture->getSize().x) / spriteSize), 
         height / ((texture->getSize().y) / animationSize)
     ));
     renderTarget->draw(*animations[playerAction][aniIndex]);
-    //DrawHitbox(renderTarget);
+    //DrawHitbox(renderTarget, lvlOffset);
 }

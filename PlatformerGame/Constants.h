@@ -53,6 +53,8 @@ const int CRABBY_WIDTH_DEFAULT = 72;
 const int CRABBY_HEIGHT_DEFAULT = 32;
 const int CRABBY_WIDTH = (int)(CRABBY_WIDTH_DEFAULT * SCALE);
 const int CRABBY_HEIGHT = (int)(CRABBY_HEIGHT_DEFAULT * SCALE);
+const int CRABBY_DRAWOFFSET_X = (int)(26 * SCALE);
+const int CRABBY_DRAWOFFSET_Y = (int)(9 * SCALE);
 
 // Resource
 const std::string RES_FOLDER = "res";

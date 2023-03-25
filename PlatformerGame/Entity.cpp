@@ -7,9 +7,10 @@ void Entity::InitHitbox(float x, float y, float width, float height)
 	hitbox->setSize(sf::Vector2f(width, height));
 }
 
-void Entity::DrawHitbox(sf::RenderTarget* renderTarget)
+void Entity::DrawHitbox(sf::RenderTarget* renderTarget, int xLvlOffset)
 {
 	hitbox->setFillColor(sf::Color(255, 192, 203));
+	hitbox->setPosition(hitbox->getPosition().x - xLvlOffset, hitbox->getPosition().y);
 	renderTarget->draw(*hitbox);
 }
 
